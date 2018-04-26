@@ -4,18 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 public class Question {
-	String questionId;
+	String question_id;
 	String title;
-	String text;
+	String content;
 	String authorId;
 	Date releaseTime;
 	List<Answer> answers;
 	
-	public String getQuestionId() {
-		return questionId;
+	public String getQuestion_id() {
+		return question_id;
 	}
-	public void setQuestionId(String questionId) {
-		this.questionId = questionId;
+	public void setQuestion_id(String questionId) {
+		this.question_id = questionId;
 	}
 	public String getTitle() {
 		return title;
@@ -23,11 +23,11 @@ public class Question {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getText() {
-		return text;
+	public String getContent() {
+		return content;
 	}
-	public void setText(String text) {
-		this.text = text;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public String getAuthorId() {
 		return authorId;

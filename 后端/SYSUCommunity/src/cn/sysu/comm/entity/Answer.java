@@ -3,15 +3,16 @@ package cn.sysu.comm.entity;
 import java.util.Date;
 
 public class Answer {
-	String answerId;
+	String ans_Id;
 	String text;
 	String authorId;
+	String ques_id;
 	Date releaseTime;
-	public String getAnswerId() {
-		return answerId;
+	public String getAns_Id() {
+		return ans_Id;
 	}
-	public void setAnswerId(String answerId) {
-		this.answerId = answerId;
+	public void setAns_Id(String ans_Id) {
+		this.ans_Id = ans_Id;
 	}
 	public String getText() {
 		return text;
@@ -24,6 +25,12 @@ public class Answer {
 	}
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
+	}
+	public String getQues_id() {
+		return ques_id;
+	}
+	public void setQues_id(String ques_id) {
+		this.ques_id = ques_id;
 	}
 	public Date getReleaseTime() {
 		return releaseTime;

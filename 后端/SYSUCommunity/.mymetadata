@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="SYSUCommunity"
+  id="myeclipse.1524568903984"
+  context-root="/SYSUCommunity"
+  j2ee-spec="5.0"
+  archive="SYSUCommunity.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

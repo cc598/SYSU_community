@@ -6,6 +6,7 @@ public class Comment {
 	String c_id;
 	String text;
 	String authorId;
+	String art_id;
 	Date releaseTime;
 	public String getC_id() {
 		return c_id;
@@ -31,6 +32,12 @@ public class Comment {
 	public void setReleaseTime(Date releaseTime) {
 		this.releaseTime = releaseTime;
 	}
-
+	public String getArt_id() {
+		return art_id;
+	}
+	public void setArt_id(String art_id) {
+		this.art_id = art_id;
+	}
+	
 	
 }

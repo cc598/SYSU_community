@@ -6,7 +6,7 @@ import java.util.List;
 public class Article {
 	String art_id;
 	String title;
-	String text;
+	String content;
 	String authorId;
 	Date relaseTime;
 	Date lastChangeTime;
@@ -14,6 +14,12 @@ public class Article {
 	List<Comment> comments;
 	public String getArt_id() {
 		return art_id;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public void setArt_id(String art_id) {
 		this.art_id = art_id;
@@ -23,12 +29,6 @@ public class Article {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
 	}
 	public String getAuthorId() {
 		return authorId;
