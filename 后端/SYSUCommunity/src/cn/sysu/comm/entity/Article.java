@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Article {
-	String art_id;
+	int art_id;
 	String title;
 	String content;
 	String authorId;
@@ -12,7 +12,7 @@ public class Article {
 	Date lastChangeTime;
 	String classification;
 	List<Comment> comments;
-	public String getArt_id() {
+	public int getArt_id() {
 		return art_id;
 	}
 	public String getContent() {
@@ -21,7 +21,7 @@ public class Article {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public void setArt_id(String art_id) {
+	public void setArt_id(int art_id) {
 		this.art_id = art_id;
 	}
 	public String getTitle() {

@@ -3,22 +3,22 @@ package cn.sysu.comm.entity;
 import java.util.Date;
 
 public class Answer {
-	String ans_Id;
-	String text;
+	int ans_Id;
+	String content;
 	String authorId;
-	String ques_id;
+	int ques_id;
 	Date releaseTime;
-	public String getAns_Id() {
+	public int getAns_Id() {
 		return ans_Id;
 	}
-	public void setAns_Id(String ans_Id) {
+	public void setAns_Id(int ans_Id) {
 		this.ans_Id = ans_Id;
 	}
-	public String getText() {
-		return text;
+	public String getContent() {
+		return content;
 	}
-	public void setText(String text) {
-		this.text = text;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public String getAuthorId() {
 		return authorId;
@@ -26,10 +26,10 @@ public class Answer {
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
 	}
-	public String getQues_id() {
+	public int getQues_id() {
 		return ques_id;
 	}
-	public void setQues_id(String ques_id) {
+	public void setQues_id(int ques_id) {
 		this.ques_id = ques_id;
 	}
 	public Date getReleaseTime() {

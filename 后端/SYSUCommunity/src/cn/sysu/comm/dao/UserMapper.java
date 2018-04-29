@@ -1,5 +1,7 @@
 package cn.sysu.comm.dao;
 
+import java.util.List;
+
 import cn.sysu.comm.entity.User;
 
 /**
@@ -20,7 +22,7 @@ public interface UserMapper {
 	/*
 	 * 通过用户名查找用户
 	 */
-	public User findUserByName(String username);
+	public List<User> findUserByName(String username);
 	/*
 	 * 编辑用户，更改用户信息
 	 */

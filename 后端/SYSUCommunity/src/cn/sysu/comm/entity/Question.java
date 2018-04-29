@@ -4,17 +4,17 @@ import java.util.Date;
 import java.util.List;
 
 public class Question {
-	String question_id;
+	int question_id;
 	String title;
 	String content;
 	String authorId;
 	Date releaseTime;
 	List<Answer> answers;
 	
-	public String getQuestion_id() {
+	public int getQuestion_id() {
 		return question_id;
 	}
-	public void setQuestion_id(String questionId) {
+	public void setQuestion_id(int questionId) {
 		this.question_id = questionId;
 	}
 	public String getTitle() {

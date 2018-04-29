@@ -1,5 +1,7 @@
 package cn.sysu.comm.dao;
 
+import java.util.List;
+
 import cn.sysu.comm.entity.Article;
 
 /**
@@ -12,5 +14,21 @@ import cn.sysu.comm.entity.Article;
  */
 
 public interface ArticleMapper {
-	public Article findArticleByName(String artName);
+	public List<Article> findArticleByName(String artName);
+	public List<Article> findArticleByContent(String content);
+	public Article findArticleById(int artId);
+	/*
+	 * 增加文章
+	 * 传入参数为一个Article对象
+	 */
+	public void addArticle(Article article);
+	/*
+	 * 通过artid删除文章
+	 */
+	public void deleteArticle(int artId);
+	/*
+	 * 更新文章
+	 * 传入参数为一个Article对象
+	 */
+	public void updateArticle(Article article);
 }
