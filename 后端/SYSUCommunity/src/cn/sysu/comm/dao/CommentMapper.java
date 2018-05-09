@@ -39,7 +39,7 @@ public interface CommentMapper {
 	 * 传入参数:文章的id
 	 * 返回List<Comment>
 	 */
-	public List<Comment> findCommentsByArticle(int artId);
+	public List<Comment> loadComments(int artId);
 	/*
 	 * 增加问题
 	 * 传入参数为一个Comment对象
@@ -49,4 +49,7 @@ public interface CommentMapper {
 	 * 通过c_id删除问题
 	 */
 	public void deleteComment(int c_id);
+	/**
+	 * 通过
+	 */
 }

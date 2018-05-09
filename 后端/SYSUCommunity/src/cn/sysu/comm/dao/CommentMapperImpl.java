@@ -46,7 +46,7 @@ public class CommentMapperImpl implements CommentMapper {
 	}
 
 	@Override
-	public List<Comment> findCommentsByArticle(int artId) {
+	public List<Comment> loadComments(int artId) {
 		String sql = "select * from t_comment where art_id =?";
 		try {
 			return qRunner.query(sql, new BeanListHandler<Comment>(Comment.class), artId);

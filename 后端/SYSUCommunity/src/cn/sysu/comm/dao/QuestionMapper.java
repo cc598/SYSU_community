@@ -16,6 +16,7 @@ import cn.sysu.comm.entity.Question;
 public interface QuestionMapper {
 	public List<Question> findQuestionByName(String question);
 	public List<Question> findQuestionByContent(String content);
+	public List<Question> findQuestionsByAuthorId(String authorId);
 	public Question findQuetionById(int quesId);
 	/*
 	 * 增加问题
@@ -31,4 +32,5 @@ public interface QuestionMapper {
 	 * 传入参数为一个Question问题
 	 */
 	public void updateQuestion(Question question);
+	public int findLastInsert();
 }

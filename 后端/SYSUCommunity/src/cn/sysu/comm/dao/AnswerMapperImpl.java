@@ -73,12 +73,24 @@ public class AnswerMapperImpl implements AnswerMapper {
 	@Override
 	public void updateAnswer(Answer answer) {
 		String sql = "update answer set content = ? where ans_id=?";
-		Object[] params = {answer.getContent(), answer.getAns_Id()};
+		Object[] params = {answer.getContent(), answer.getAns_id()};
 		try {
 			qRunner.update(sql, params);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public List<Answer> loadAnswers(int ques_id) {
+		String sql = "select * from answer where ques_id =?";
+		try {
+			return qRunner.query(sql, new BeanListHandler<Answer>(Answer.class), ques_id);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
 
 }

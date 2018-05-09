@@ -2,17 +2,19 @@ package cn.sysu.comm.entity;
 
 import java.util.Date;
 
+import cn.sysu.comm.dao.UserMapperImpl;
+
 public class Answer {
-	int ans_Id;
+	int ans_id;
 	String content;
 	String authorId;
 	int ques_id;
 	Date releaseTime;
-	public int getAns_Id() {
-		return ans_Id;
+	public int getAns_id() {
+		return ans_id;
 	}
-	public void setAns_Id(int ans_Id) {
-		this.ans_Id = ans_Id;
+	public void setAns_id(int ans_id) {
+		this.ans_id = ans_id;
 	}
 	public String getContent() {
 		return content;
@@ -25,6 +27,9 @@ public class Answer {
 	}
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
+	}
+	public String getAuthor() {
+		return new UserMapperImpl().findUserById(authorId).getUsername();
 	}
 	public int getQues_id() {
 		return ques_id;

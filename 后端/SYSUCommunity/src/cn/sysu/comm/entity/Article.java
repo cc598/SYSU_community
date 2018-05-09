@@ -3,12 +3,14 @@ package cn.sysu.comm.entity;
 import java.util.Date;
 import java.util.List;
 
+import cn.sysu.comm.dao.UserMapperImpl;
+
 public class Article {
 	int art_id;
 	String title;
 	String content;
 	String authorId;
-	Date relaseTime;
+	Date releaseTime;
 	Date lastChangeTime;
 	String classification;
 	List<Comment> comments;
@@ -33,14 +35,17 @@ public class Article {
 	public String getAuthorId() {
 		return authorId;
 	}
+	public String getAuthor() {
+		return new UserMapperImpl().findUserById(authorId).getUsername();
+	}
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
 	}
-	public Date getRelaseTime() {
-		return relaseTime;
+	public Date getReleaseTime() {
+		return releaseTime;
 	}
-	public void setRelaseTime(Date relaseTime) {
-		this.relaseTime = relaseTime;
+	public void setReleaseTime(Date releaseTime) {
+		this.releaseTime = releaseTime;
 	}
 	public Date getLastChangeTime() {
 		return lastChangeTime;
@@ -60,5 +65,55 @@ public class Article {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Article other = (Article) obj;
+		if (art_id != other.art_id)
+			return false;
+		if (authorId == null) {
+			if (other.authorId != null)
+				return false;
+		} else if (!authorId.equals(other.authorId))
+			return false;
+		if (classification == null) {
+			if (other.classification != null)
+				return false;
+		} else if (!classification.equals(other.classification))
+			return false;
+		if (comments == null) {
+			if (other.comments != null)
+				return false;
+		} else if (!comments.equals(other.comments))
+			return false;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (lastChangeTime == null) {
+			if (other.lastChangeTime != null)
+				return false;
+		} else if (!lastChangeTime.equals(other.lastChangeTime))
+			return false;
+		if (releaseTime == null) {
+			if (other.releaseTime != null)
+				return false;
+		} else if (!releaseTime.equals(other.releaseTime))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+	
 	
 }

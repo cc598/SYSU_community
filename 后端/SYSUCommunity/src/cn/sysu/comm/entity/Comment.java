@@ -1,6 +1,8 @@
 package cn.sysu.comm.entity;
 
-import java.sql.Date;
+import java.util.Date;
+
+import cn.sysu.comm.dao.UserMapperImpl;
 
 public class Comment {
 	int c_id;
@@ -25,6 +27,9 @@ public class Comment {
 	}
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
+	}
+	public String getAuthor(){
+		return new UserMapperImpl().findUserById(authorId).getUsername();
 	}
 	public Date getReleaseTime() {
 		return releaseTime;

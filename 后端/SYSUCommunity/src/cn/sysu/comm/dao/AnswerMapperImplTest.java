@@ -26,7 +26,7 @@ public class AnswerMapperImplTest {
 	public void test1() {
 		AnswerMapper impl = new AnswerMapperImpl();
 		Answer answer = new Answer();
-		answer.setAns_Id(2);
+		answer.setAns_id(2);
 		answer.setAuthorId("1");
 		answer.setContent("yes i am dumb, u r cool");
 		answer.setQues_id(3);
@@ -39,7 +39,7 @@ public class AnswerMapperImplTest {
 	public void test3() {
 		AnswerMapper impl = new AnswerMapperImpl();
 		Answer answer = new Answer();
-		answer.setAns_Id(2);
+		answer.setAns_id(2);
 		answer.setAuthorId("1");
 		answer.setContent("yes i am dumb, u r cool");
 		answer.setQues_id(3);

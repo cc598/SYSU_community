@@ -3,6 +3,8 @@ package cn.sysu.comm.dao;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -19,8 +21,8 @@ public class ArticleMapperImplTest {
 		article.setAuthorId("1");
 		article.setClassification("2");
 		article.setContent("milkwakeee");
-		Date date = new Date(new java.util.Date().getTime());
-		article.setRelaseTime(date);
+		Timestamp date = new Timestamp(new java.util.Date().getTime());
+		article.setReleaseTime(date);
 		article.setLastChangeTime(date);
 		impl.addArticle(article);
 	}
@@ -29,13 +31,13 @@ public class ArticleMapperImplTest {
 	public void test1() {
 		ArticleMapperImpl impl = new ArticleMapperImpl();
 		Article article = new Article();
-		article.setArt_id(2);
+		article.setArt_id(5);
 		article.setTitle("u gotta no who i am");
 		article.setAuthorId("1");
 		article.setClassification("2");
 		article.setContent("buuuulls");
-		Date date = new Date(new java.util.Date().getTime());
-		article.setRelaseTime(date);
+		Timestamp date = new Timestamp(new java.util.Date().getTime());
+		article.setReleaseTime(date);
 		article.setLastChangeTime(date);
 		impl.updateArticle(article);
 	}
@@ -50,7 +52,7 @@ public class ArticleMapperImplTest {
 		article.setClassification("2");
 		article.setContent("buuuulls");
 		Date date = new Date(new java.util.Date().getTime());
-		article.setRelaseTime(date);
+		article.setReleaseTime(date);
 		article.setLastChangeTime(date);
 		impl.deleteArticle(article.getArt_id());
 	}
@@ -65,15 +67,17 @@ public class ArticleMapperImplTest {
 		article.setClassification("2");
 		article.setContent("buuuulls");
 		Date date = new Date(new java.util.Date().getTime());
-		article.setRelaseTime(date);
+		article.setReleaseTime(date);
 		article.setLastChangeTime(date);
 		System.out.println(impl.findArticleById(article.getArt_id()).getTitle());
 	}
 	@Test
 	public void test4() {
 		ArticleMapper impl = new ArticleMapperImpl();
-		Article article = new Article();
-		System.out.println(impl.findArticleByName("who i am").get(0).getTitle());
+		List<Article> contentList = impl.findArticleByContent("");
+		List<Article> nameList = impl.findArticleByName("");
+		contentList.removeAll(nameList);
+		System.out.println(contentList);
 	}
 	
 	@Test

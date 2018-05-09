@@ -36,14 +36,14 @@ public class UserMapperImpl implements UserMapper {
 
 	@Override
 	public void editUser(User user) {
-		String sql = "update t_user set username=?, password=?, icon=?, sex=?," +
+		String sql = "update t_user set username=?, icon=?, sex=?," +
 					" email=? where user_id=?";
-		Object[] params = {user.getUsername(), user.getPassword(), user.getIcon_url(),
+		Object[] params = {user.getUsername(), user.getIcon(),
 							user.getSex(), user.getEmail(),user.getUser_id()};
 		try {
 			qRunner.update(sql, params);
 		} catch (SQLException e) {
-		throw new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
 
 	}

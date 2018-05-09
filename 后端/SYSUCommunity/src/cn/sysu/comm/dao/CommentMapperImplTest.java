@@ -54,6 +54,6 @@ public class CommentMapperImplTest {
 	@Test
 	public void test5() {
 		CommentMapper impl = new CommentMapperImpl();
-		System.out.println(impl.findCommentsByArticle(4));
+		System.out.println(impl.loadComments(4));
 	}
 }

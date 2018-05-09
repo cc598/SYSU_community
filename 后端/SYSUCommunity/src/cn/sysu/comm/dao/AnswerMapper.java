@@ -28,7 +28,7 @@ public interface AnswerMapper {
 	public Answer findAnswerById(int ansId);
 	/*
 	 * 增加回答
-	 * 传入参数为一个Question对象
+   * 传入参数为一个Question对象
 	 */
 	public void addAnswer(Answer answer);
 	/*
@@ -40,4 +40,8 @@ public interface AnswerMapper {
 	 * 传入参数为一个Answer对象
 	 */
 	public void updateAnswer(Answer answer);
+	/*
+	 * 加载问题的答案  
+	 */
+	public List<Answer> loadAnswers(int ques_id);
 }

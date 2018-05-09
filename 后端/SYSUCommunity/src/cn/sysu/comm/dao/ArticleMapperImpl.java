@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import cn.itcast.jdbc.TxQueryRunner;
 import cn.sysu.comm.entity.Article;
+import cn.sysu.comm.entity.Comment;
 import cn.sysu.comm.entity.User;
 
 public class ArticleMapperImpl implements ArticleMapper {
@@ -39,7 +40,7 @@ public class ArticleMapperImpl implements ArticleMapper {
 	public void addArticle(Article article) {
 		String sql = "insert into article(title, content, authorId, releaseTime, lastChangeTime,  classification) " +
 						"values( ?, ?, ?, ?, ?, ?)";
-		Object[] params = {article.getTitle(), article.getContent(), article.getAuthorId(), article.getRelaseTime(), article.getLastChangeTime(), article.getClassification()};
+		Object[] params = {article.getTitle(), article.getContent(), article.getAuthorId(), article.getReleaseTime(), article.getLastChangeTime(), article.getClassification()};
 		try {
 			qRunner.update(sql, params);
 		} catch (SQLException e) {
@@ -61,7 +62,8 @@ public class ArticleMapperImpl implements ArticleMapper {
 	@Override
 	public void updateArticle(Article article) {
 		String sql = "UPDATE article SET title=?, content=?, lastChangeTime=?, classification=? WHERE art_id = ?";
-		Object[] params = {article.getTitle(), article.getContent(), article.getLastChangeTime(), article.getClassification(),article.getArt_id()};
+		Object[] params = {article.getTitle(), article.getContent(), article.getLastChangeTime(), 
+				article.getClassification(),article.getArt_id()};
 		try {
 			qRunner.update(sql, params);
 		} catch (SQLException e) {
@@ -69,11 +71,32 @@ public class ArticleMapperImpl implements ArticleMapper {
 		}
 	}
 
+	
 	@Override
 	public List<Article> findArticleByName(String artName) {
 		String sql = "select * from article where title like ?";
 		try {
 			return qRunner.query(sql, new BeanListHandler<Article>(Article.class), "%"+artName+"%");
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public Article findLastInsert() {
+		String sql = "select * from article order by art_id desc limit 1";
+		try {
+			return qRunner.query(sql, new BeanHandler<Article>(Article.class));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public List<Article> findArticlesByAuthorId(String authorId) {
+		String sql = "select * from article where authorId = ?";
+		try {
+			return qRunner.query(sql, new BeanListHandler<Article>(Article.class), authorId);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

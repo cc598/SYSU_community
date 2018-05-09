@@ -6,8 +6,10 @@ import java.util.List;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import cn.itcast.jdbc.TxQueryRunner;
+import cn.sysu.comm.entity.Article;
 import cn.sysu.comm.entity.Question;
 
 public class QuestionMapperImpl implements QuestionMapper {
@@ -39,6 +41,26 @@ public class QuestionMapperImpl implements QuestionMapper {
 		String sql = "select * from question where question_id = ?";
 		try {
 			return qRunner.query(sql, new BeanHandler<Question>(Question.class), quesId);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@Override
+	public List<Question> findQuestionsByAuthorId(String authorId) {
+		String sql = "select * from question where authorId = ?";
+		try {
+			return qRunner.query(sql, new BeanListHandler<Question>(Question.class), authorId);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public int findLastInsert() {
+		String sql = "select question_id from question order by question_id desc limit 1";
+		try {
+			return (Integer) qRunner.query(sql, new ScalarHandler());
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

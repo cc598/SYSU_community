@@ -13,38 +13,38 @@ CREATE TABLE article (
 	art_id int PRIMARY KEY AUTO_INCREMENT,
 	title VARCHAR(50) NOT NULL,
 	content MEDIUMTEXT NOT NULL,
-	authorId VARCHAR(50) NOT NULL,
+	authorId VARCHAR(50),
 	releaseTime TIMESTAMP NOT NULL,
 	lastChangeTime TIMESTAMP NOT NULL,
 	classification VARCHAR(30),
-	FOREIGN KEY (authorId) REFERENCES t_user(user_id)
+	FOREIGN KEY (authorId) REFERENCES t_user(user_id) ON DELETE SET NULL
 );	
 
 CREATE TABLE question (
 	question_id int PRIMARY KEY AUTO_INCREMENT,
 	title VARCHAR(50) NOT NULL,
 	content TEXT,
-	authorId VARCHAR(50) NOT NULL,
+	authorId VARCHAR(50),
 	releaseTime TIMESTAMP,
-	FOREIGN KEY (authorId) REFERENCES t_user(user_id)
+	FOREIGN KEY (authorId) REFERENCES t_user(user_id) ON DELETE SET NULL
 	);
 
 CREATE TABLE t_comment (
 	c_id int PRIMARY KEY AUTO_INCREMENT,
 	content TEXT NOT NULL,
-	authorId VARCHAR(50) NOT NULL,
+	authorId VARCHAR(50),
 	art_id int NOT NULL,
 	releaseTime TIMESTAMP,
-	FOREIGN KEY (authorId) REFERENCES t_user(user_id),
-	FOREIGN KEY (art_id) REFERENCES article(art_id)
+	FOREIGN KEY (authorId) REFERENCES t_user(user_id) ON DELETE SET NULL,
+	FOREIGN KEY (art_id) REFERENCES article(art_id) ON DELETE CASCADE
 	);
 
 CREATE TABLE answer (
 	ans_id int PRIMARY KEY AUTO_INCREMENT,
 	content TEXT NOT NULL,
-	authorId VARCHAR(50) NOT NULL,
+	authorId VARCHAR(50),
 	ques_id int NOT NULL,
 	releaseTime TIMESTAMP,	
-	FOREIGN KEY (authorId) REFERENCES t_user(user_id),
-	FOREIGN KEY (ques_id) REFERENCES question(question_id)
+	FOREIGN KEY (authorId) REFERENCES t_user(user_id) ON DELETE SET NULL,
+	FOREIGN KEY (ques_id) REFERENCES question(question_id) ON DELETE CASCADE
 	);
