@@ -1,3 +1,5 @@
+CREATE DATABASE sysu_community;
+USE sysu_community;
 CREATE TABLE t_user ( 
 	user_id VARCHAR(50) PRIMARY KEY, 
 	username VARCHAR(50) NOT NULL, 
