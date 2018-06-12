@@ -18,13 +18,15 @@ public class UserMapperImplTest {
 	public void edit() {
 		UserMapperImpl userImpl = new UserMapperImpl();
 		User user = new User();
-		user.setUser_id("123");
+		user.setUser_id("admin");
 		user.setSex("男");
 		user.setEmail("this@sysu.mail.com");
 		user.setPassword("3333");
 		user.setGrade("2015");
 		user.setUsername("区块链");
-		userImpl.editUser(user);
+		user.setCollege("sdcs");
+		user.setIcon("icon_img/1.jpg");
+		userImpl.addUser(user);
 	}
 
 }

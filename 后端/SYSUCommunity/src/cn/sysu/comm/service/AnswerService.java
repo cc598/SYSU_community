@@ -7,6 +7,7 @@ import cn.itcast.jdbc.JdbcUtils;
 import cn.sysu.comm.dao.AnswerMapper;
 import cn.sysu.comm.dao.AnswerMapperImpl;
 import cn.sysu.comm.entity.Answer;
+import cn.sysu.comm.entity.Comment;
 
 public class AnswerService {
 	private AnswerMapper answerDao = new AnswerMapperImpl();
@@ -28,26 +29,25 @@ public class AnswerService {
 	}
 
 	public boolean delete(int ansId, String userid) {
-		try {
-			JdbcUtils.beginTransaction();
-			Answer answer = answerDao.findAnswerById(ansId);
-			if(answer.getAuthorId().equals(userid)){
-				answerDao.deleteAnswer(ansId);//只能删除当前的
-			}
-			else {
-				return false;
-			}
-			JdbcUtils.commitTransaction();
-			return true;
-		} catch (SQLException e) {
+		// 只有管理员和作者有权限删除
+		Answer answer = answerDao.findAnswerById(ansId);
+		if(answer.getAuthorId().equals(userid) || userid.equalsIgnoreCase("admin")){
 			try {
-				JdbcUtils.rollbackTransaction();
-				return false;
-			} catch (SQLException e1) {
-				throw new RuntimeException(e);
+				JdbcUtils.beginTransaction();
+				answerDao.deleteAnswer(ansId);
+				JdbcUtils.commitTransaction();
+				return true;
+			} catch (SQLException e) {
+				try {
+					JdbcUtils.rollbackTransaction();
+					return false;
+				} catch (SQLException e1) {
+					throw new RuntimeException(e);
+				}
 			}
+		} else {
+			return false;
 		}
-		
 	}
 	
 	public List<Answer> loadMyAnswers(String userid) {
@@ -61,5 +61,7 @@ public class AnswerService {
 	public List<Answer> findAnswersBykey(String keyword) {
 		return answerDao.findAnswerByContent(keyword);
 	}
-	
+	public Answer findLastInsertAnswer() {
+		return answerDao.findLastInsert();
+	}
 }

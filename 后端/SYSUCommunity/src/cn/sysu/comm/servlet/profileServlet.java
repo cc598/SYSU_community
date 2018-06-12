@@ -35,15 +35,7 @@ public class profileServlet extends HttpServlet {
 			JSONObject map = JSONObject.fromObject(user);
 			String json = map.toString();
 			// 放置个人资料
-			request.setAttribute("userid", userid);
-			request.setAttribute("username", user.getUsername());
-			request.setAttribute("sex", user.getSex());
-			request.setAttribute("icon", user.getIcon());
-			request.setAttribute("college", user.getCollege());
-			request.setAttribute("grade", user.getGrade());
-			request.setAttribute("email", user.getEmail());
-			// 转发到的页面
-			request.getRequestDispatcher("/me.jsp").forward(request, response);
+			response.getWriter().write(json);
 		} else {
 			response.getWriter().write("请先登录！<br/>5s后跳转到登录页面...");
 			response.setHeader("Refresh", "5;URL="+ request.getContextPath() +"/login.jsp");

@@ -7,9 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+
 import cn.itcast.servlet.BaseServlet;
 import cn.sysu.comm.entity.User;
 import cn.sysu.comm.service.UserService;
+import cn.sysu.json.helper.Util;
 
 public class UserServlet extends BaseServlet {
 	UserService userService = new UserService();
@@ -25,7 +28,7 @@ public class UserServlet extends BaseServlet {
 		if(userid == null) {
 			return "r:/login.jsp";
 		}
-		request.getSession().setAttribute("user_id", null);
+		request.getSession().invalidate();
 		return "r:/login.jsp";
 	}
 
@@ -37,13 +40,16 @@ public class UserServlet extends BaseServlet {
 	 * @CreateTime: 2018-5-9 下午3:46:16 
 	 */
 	
-	public String myAll(HttpServletRequest request, HttpServletResponse response)
+	public void myAll(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String userid = (String) session.getAttribute("user_id");
 		User user = userService.me(userid);
-		request.setAttribute("user", user);
-		return "f:/myAll.jsp";
+		String json = Util.beanToJson(user,"yyyy-MM-dd HH:mm:ss");
+		response.getWriter().write(json);
+		System.out.println(json);
+//		request.setAttribute("user", user);
+//		return "f:/myAll.jsp";
 	}
 	
 }

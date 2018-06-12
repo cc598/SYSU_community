@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>myall.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js">
+	</script>
+	<script type="text/javascript">
+	window.onload = function(){
+		$.ajax({url:"../UserServlet?method=myAll", dataType:"json",success:func1});
+		function func1(data){
+			var json = eval(data);
+			$("#username").text("用户名：" + json.username);
+			$("#icon").attr('src',"../"+json.icon); 
+			$("#userid").text("用户id："+json.user_id);
+			$("#sex").text("性别:" + json.sex);
+			$("#college").text("院系:"+ json.college);
+			$("#email").text("邮箱:"+ json.email);
+			$("#grade").text("年级:"+json.grade);
+			var article = $("#id1");
+			for(var i = 0; i < json.articles.length; i++){
+				article.after("<p>标题："+ json.articles[i].title +
+								" 内容：" + json.articles[i].content+
+								" 作者：" + json.articles[i].author +
+								" 发布时间：" +json.articles[i].releaseTime+
+								" 修改时间："+json.articles[i].lastChangeTime
+								+"</p>");
+			}
+			
+			var article = $("#id2");
+			for(var i = 0; i < json.comments.length; i++){
+				article.after("<p>内容：" + json.comments[i].content+
+								" 作者：" + json.comments[i].author
+								+ " 发布时间：" + json.comments[i].releaseTime
+								+"</p>");
+			}
+			
+			var article = $("#id3");
+			for(var i = 0; i < json.questions.length; i++){
+				article.after("<p>标题："+ json.questions[i].title +
+								" 内容：" + json.questions[i].content+
+								" 作者：" + json.questions[i].author
+								+"</p>");
+			}
+			
+			var article = $("#id4");
+			for(var i = 0; i < json.answers.length; i++){
+				article.after("<p>内容：" + json.answers[i].content+
+								" 作者：" + json.answers[i].author
+								+ " 发布时间：" + json.answers[i].releaseTime
+								+"</p>");
+			}
+		}
+	};
+	</script>
+  </head>
+  
+  <body>
+   <h1>个人资料</h1>
+   <p id="userid"></p>
+   <p id="username"></p>
+   头像：<img alt="找不到！" id="icon"/>
+   <p id="sex"></p>
+   <p id="college"></p>
+   <p id="grade"></p>
+   <p id="email"></p>
+   <h2 id="id1">我的文章</h2>
+   <h2 id="id2">我的评论</h2>
+   <h2 id="id3">我的问题</h2>
+   <h2 id="id4">我的回答</h2>
+  </body>
+</html>

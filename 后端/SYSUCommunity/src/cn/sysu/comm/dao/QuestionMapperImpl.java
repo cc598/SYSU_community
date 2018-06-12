@@ -101,5 +101,15 @@ public class QuestionMapperImpl implements QuestionMapper {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public List<Question> findQuestionsWithPage(int size) {
+		String sql = "select * from question order by question_id limit 0,?";
+		try {
+			return qRunner.query(sql, new BeanListHandler<Question>(Question.class), size);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 }

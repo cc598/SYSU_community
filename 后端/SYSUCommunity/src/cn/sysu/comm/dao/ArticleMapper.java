@@ -37,4 +37,5 @@ public interface ArticleMapper {
 	 * 查询最后一条插入的记录
 	 */
 	public Article findLastInsert();
+	public List<Article> findArticlesWithPage(int size);
 }

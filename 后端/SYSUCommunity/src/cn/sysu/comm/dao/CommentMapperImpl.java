@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import cn.itcast.jdbc.TxQueryRunner;
 import cn.sysu.comm.entity.Answer;
+import cn.sysu.comm.entity.Article;
 import cn.sysu.comm.entity.Comment;
 
 public class CommentMapperImpl implements CommentMapper {
@@ -79,6 +80,16 @@ public class CommentMapperImpl implements CommentMapper {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	@Override
+	public Comment findLastInsert() {
+		String sql = "select * from t_comment order by c_id desc limit 1";
+		try {
+			return qRunner.query(sql, new BeanHandler<Comment>(Comment.class));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

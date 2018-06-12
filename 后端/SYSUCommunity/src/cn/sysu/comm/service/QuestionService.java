@@ -56,26 +56,39 @@ public class QuestionService {
 		
 	}
 
-	public void delete(int ques_id) {
+	public boolean delete(int ques_id, String userid) {
+		/**
+		 * 如果作者是该作者 或 用户为管理员才能删除
+		 */
+		if(questionDao.findQuetionById(ques_id).getAuthorId().equals(userid) 
+				|| userid.equalsIgnoreCase("admin")){
 		try {
 			JdbcUtils.beginTransaction();
 			questionDao.deleteQuestion(ques_id);
 			JdbcUtils.commitTransaction();
+			return true;
 		} catch (SQLException e) {
 			try {
 				JdbcUtils.rollbackTransaction();
+				return false;
 			} catch (SQLException e1) {
 				throw new RuntimeException(e);
 			}
 		}
+	} else {
+		return false;
 	}
-
+	}
 	public List<Question> findByKeywords(String key) {
 		List<Question> contentList = questionDao.findQuestionByContent(key);
 		List<Question> nameList = questionDao.findQuestionByName(key);
 		contentList.removeAll(nameList);
 		nameList.addAll(contentList);
 		return nameList;
+	}
+
+	public List<Question> getQuestionsWithPages(int size) {
+		return questionDao.findQuestionsWithPage(size);
 	}
 	
 }

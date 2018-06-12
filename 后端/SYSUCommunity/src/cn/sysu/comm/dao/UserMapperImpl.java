@@ -48,4 +48,17 @@ public class UserMapperImpl implements UserMapper {
 
 	}
 
+	@Override
+	public void addUser(User user) {
+		String sql = "insert into t_user values(?, ?, ?, ?, ?, ?, ?, ?)";
+		Object[] params = {user.getUser_id(), user.getUsername(), user.getPassword(),
+				user.getIcon(),	user.getSex(), user.getCollege(), user.getGrade(),
+				user.getEmail()};
+		try {
+			qRunner.update(sql, params);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

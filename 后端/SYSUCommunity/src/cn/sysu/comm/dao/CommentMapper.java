@@ -52,4 +52,5 @@ public interface CommentMapper {
 	/**
 	 * 通过
 	 */
+	public Comment findLastInsert();
 }

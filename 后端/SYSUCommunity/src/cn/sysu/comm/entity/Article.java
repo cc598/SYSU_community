@@ -6,13 +6,13 @@ import java.util.List;
 import cn.sysu.comm.dao.UserMapperImpl;
 
 public class Article {
-	int art_id;
-	String title;
-	String content;
-	String authorId;
-	Date releaseTime;
-	Date lastChangeTime;
-	String classification;
+	int art_id;// 文章id
+	String title; // 标题
+	String content;//内容
+	String authorId; // 作者id
+	Date releaseTime; // 发布时间
+	Date lastChangeTime; // 上次修改时间
+	String classification; // 分类
 	List<Comment> comments;
 	public int getArt_id() {
 		return art_id;
@@ -66,6 +66,14 @@ public class Article {
 		this.comments = comments;
 	}
 	
+	@Override
+	public String toString() {
+		return "Article [art_id=" + art_id + ", title=" + title + ", content="
+				+ content + ", authorId=" + authorId + ", releaseTime="
+				+ releaseTime + ", lastChangeTime=" + lastChangeTime
+				+ ", classification=" + classification + ", comments="
+				+ comments + "]";
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

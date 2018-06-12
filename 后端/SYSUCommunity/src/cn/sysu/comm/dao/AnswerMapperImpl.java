@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import cn.sysu.comm.entity.Answer;
+import cn.sysu.comm.entity.Comment;
 import cn.sysu.comm.entity.Question;
 
 public class AnswerMapperImpl implements AnswerMapper {
@@ -86,6 +87,16 @@ public class AnswerMapperImpl implements AnswerMapper {
 		String sql = "select * from answer where ques_id =?";
 		try {
 			return qRunner.query(sql, new BeanListHandler<Answer>(Answer.class), ques_id);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public Answer findLastInsert() {
+		String sql = "select * from answer order by ans_id desc limit 1";
+		try {
+			return qRunner.query(sql, new BeanHandler<Answer>(Answer.class));
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

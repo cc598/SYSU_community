@@ -33,4 +33,5 @@ public interface QuestionMapper {
 	 */
 	public void updateQuestion(Question question);
 	public int findLastInsert();
+	public List<Question> findQuestionsWithPage(int size);
 }

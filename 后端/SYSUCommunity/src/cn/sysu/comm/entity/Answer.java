@@ -2,6 +2,7 @@ package cn.sysu.comm.entity;
 
 import java.util.Date;
 
+import cn.sysu.comm.dao.QuestionMapperImpl;
 import cn.sysu.comm.dao.UserMapperImpl;
 
 public class Answer {
@@ -30,6 +31,9 @@ public class Answer {
 	}
 	public String getAuthor() {
 		return new UserMapperImpl().findUserById(authorId).getUsername();
+	}
+	public String getQuestion(){
+		return new QuestionMapperImpl().findQuetionById(ques_id).getTitle();
 	}
 	public int getQues_id() {
 		return ques_id;

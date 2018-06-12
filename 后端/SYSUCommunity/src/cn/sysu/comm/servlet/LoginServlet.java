@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		UserService userService = new UserService();
@@ -35,12 +35,16 @@ public class LoginServlet extends HttpServlet {
 		//调用service层Login
 		boolean login = userService.login(username, password);
 		if(!login){//登录失败
-			request.setAttribute("msg", "用户名或密码错误");//错误信息
-			request.getRequestDispatcher("/login.html").forward(request, response);
+//			request.setAttribute("msg", "用户名或密码错误");//错误信息
+//			request.getRequestDispatcher("/login.html").forward(request, response);
+			
+			response.getWriter().write("fail");
 		} else {//登录成功，跳转到用户页面
 			HttpSession session = request.getSession();
 			session.setAttribute("user_id", username);
-			response.sendRedirect(request.getContextPath()+"/user.jsp");
+		//	response.sendRedirect(request.getContextPath()+"/user.jsp");
+			
+			response.getWriter().write("success");
 		}
 	}
 

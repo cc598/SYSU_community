@@ -54,18 +54,31 @@ public class ArticleService {
 			}
 		}
 	}
-	
-	public void delete(int art_id) {
-		try {
-			JdbcUtils.beginTransaction();
-			articleDao.deleteArticle(art_id);
-			JdbcUtils.commitTransaction();
-		} catch (SQLException e) {
-			try{
-				JdbcUtils.rollbackTransaction();
-			} catch (SQLException e1) {// 一般不会到这一步
-				throw new RuntimeException(e);
+	/**
+	 * 
+	 * @Description: 删除文章
+	 * @author: bee
+	 * @param userid 
+	 * @CreateTime: 2018-5-10 下午4:11:33 
+	 */
+	public boolean delete(int art_id, String userid) {
+		if(articleDao.findArticleById(art_id).getAuthorId().equals(userid)
+		    || userid.equalsIgnoreCase("admin")){
+			try {
+				JdbcUtils.beginTransaction();
+				articleDao.deleteArticle(art_id);
+				JdbcUtils.commitTransaction();
+				return true;
+			} catch (SQLException e) {
+				try{
+					JdbcUtils.rollbackTransaction();
+					return false;
+				} catch (SQLException e1) {// 一般不会到这一步
+					throw new RuntimeException(e);
+				}
 			}
+		} else {
+			return false;
 		}
 	}
 	
@@ -103,8 +116,10 @@ public class ArticleService {
 		List<Article> nameList = articleDao.findArticleByName(key);
 
 		contentList.removeAll(nameList);// 去重
-		System.out.println(contentList);
 		nameList.addAll(contentList);// 求并集
 		return nameList;
+	}
+	public List<Article> getArticlesWithPages(int size) {
+		return articleDao.findArticlesWithPage(size);
 	}
 }
