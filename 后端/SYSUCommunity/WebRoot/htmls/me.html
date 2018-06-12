@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>me.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js">
+	</script>
+	<script type="text/javascript">
+	window.onload = function(){
+		$.ajax({url:"../profileServlet", dataType:"json",success:func1});
+		function func1(data){
+			var json = eval(data);
+			$("#username").val(json.username);
+			$("#icon").attr('src',"../"+json.icon); 
+			$("#user").val(json.user_id);
+			$("#sex").val(json.sex);
+			$("#college").val(json.college);
+			$("#email").val(json.email);
+			$("#grade").val(json.grade);
+		}
+	};
+	</script>
+
+  </head>
+  
+  <body>
+    <h1>个人资料</h1>
+    <form action="../EditServlet" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="user_id" id="user"/>
+    头像：<input type="file" name="icon"><img alt="找不到！" id="icon" width=200 height=200/><br>
+    昵称：<input type="text" name="username" id="username" /><br>
+    性别：<input type="text" name="sex" id="sex"/><br/>
+    学院：<input type="text" name="college" id="college"/><br>
+    年级：<input type="text" name="grade" id="grade"/><br>
+    邮箱：<input type="text" name="email" id="email"/><br>
+    <input type="submit" value="提交修改"/> 
+     </form>
+  </body>
+</html>

@@ -13,6 +13,7 @@ import cn.itcast.servlet.BaseServlet;
 import cn.sysu.comm.entity.Answer;
 import cn.sysu.comm.entity.Comment;
 import cn.sysu.comm.service.AnswerService;
+import cn.sysu.json.helper.Util;
 
 public class AnswerServlet extends BaseServlet {
 
@@ -26,7 +27,7 @@ public class AnswerServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午6:35:17 
 	 */
-	public String add(HttpServletRequest request, HttpServletResponse response)
+	public void add(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		Answer answer = CommonUtils.toBean(request.getParameterMap(), Answer.class);
@@ -36,8 +37,11 @@ public class AnswerServlet extends BaseServlet {
 		Timestamp releaseTime = new Timestamp(new java.util.Date().getTime());
 		answer.setReleaseTime(releaseTime);
 		answerService.add(answer);
-		// 重定向到文章页面
-		return "r:/QuestionServlet?method=show&ques_id="+answer.getQues_id();
+		// 重定向到问题页面
+		String json = Util.beanToJson(answerService.findLastInsertAnswer(), "yyyy-MM-dd HH:mm:ss");
+		response.getWriter().write(json);
+		
+	//	return "r:/QuestionServlet?method=show&ques_id="+answer.getQues_id();
 	}
 
 	/**
@@ -47,16 +51,18 @@ public class AnswerServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午6:38:13 
 	 */
-	public String delete(HttpServletRequest request, HttpServletResponse response)
+	public void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String id = request.getParameter("ans_id");
 		int c_id = Integer.parseInt(id);
 		String userid = (String) request.getSession().getAttribute("user_id");
 		if(answerService.delete(c_id, userid)) {
-			return "r:/QuestionServlet?method=show&ques_id="  + request.getParameter("ques_id");
+			response.getWriter().write("success");
+			//return "r:/QuestionServlet?method=show&ques_id="  + request.getParameter("ques_id");
 		} else {//删除失败，因为不是当前评论作者
 			request.setAttribute("msg", "你没有权限删除此评论!");
-			return "f:/QuestionServlet?method=show&ques_id="  + request.getParameter("ques_id");
+			response.getWriter().write("fail");
+			//return "f:/QuestionServlet?method=show&ques_id="  + request.getParameter("ques_id");
 		}
 		
 	}
@@ -67,12 +73,14 @@ public class AnswerServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午6:55:39 
 	 */
-	public String findMyAnswers(HttpServletRequest request, HttpServletResponse response)
+	public void findMyAnswers(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userid = (String) request.getSession().getAttribute("user_id");
 		List<Answer> answers = answerService.loadMyAnswers(userid);
 		request.setAttribute("foundList", answers);
-		return "f:/ans_show.jsp";
+		String json = Util.arrayToJson(answers);
+		response.getWriter().write(json);
+		//return "f:/ans_show.jsp";
 	}
 	
 	/**
@@ -81,11 +89,13 @@ public class AnswerServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午6:58:15 
 	 */
-	public String findCommentsByKey(HttpServletRequest request, HttpServletResponse response)
+	public void findCommentsByKey(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String keyword = request.getParameter("keyword");
 		List<Answer> result = answerService.findAnswersBykey(keyword);
+		String json = Util.arrayToJson(result);
+		response.getWriter().write(json);
 		request.setAttribute("foundList", result);
-		return "f:/show.jsp";
+		//return "f:/show.jsp";
 	}
 }

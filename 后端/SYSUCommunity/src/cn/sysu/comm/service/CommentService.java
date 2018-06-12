@@ -28,26 +28,29 @@ public class CommentService {
 	}
 
 	public boolean delete(int c_id, String userid) {
-		try {
-			JdbcUtils.beginTransaction();
-			Comment comment = commentDao.findCommentById(c_id);
-			if(comment.getAuthorId() == userid){
-				commentDao.deleteComment(c_id);//只能删除当前的
-			}
-			else {
-				return false;
-			}
-			JdbcUtils.commitTransaction();
-			return true;
-		} catch (SQLException e) {
+		Comment comment = commentDao.findCommentById(c_id);
+		if(comment.getAuthorId().equals(userid) || userid.equalsIgnoreCase("admin")){
 			try {
-				JdbcUtils.rollbackTransaction();
-				return false;
-			} catch (SQLException e1) {
-				throw new RuntimeException(e);
+				JdbcUtils.beginTransaction();
+				commentDao.deleteComment(c_id);//只能删除当前的
+				JdbcUtils.commitTransaction();
+				return true;
+			} catch (SQLException e) {
+				try {
+					JdbcUtils.rollbackTransaction();
+					return false;
+				} catch (SQLException e1) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
-		
+		else {
+			return false;
+		}
+	}
+	
+	public Comment findLastInsertComment() {
+		return commentDao.findLastInsert();
 	}
 	
 	public List<Comment> loadMyComments(String userid) {

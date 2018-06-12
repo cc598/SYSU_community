@@ -102,4 +102,14 @@ public class ArticleMapperImpl implements ArticleMapper {
 		}
 	}
 
+	@Override
+	public List<Article> findArticlesWithPage(int size) {
+		String sql = "select * from article order by art_id limit 0,?";
+		try {
+			return qRunner.query(sql, new BeanListHandler<Article>(Article.class), size);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

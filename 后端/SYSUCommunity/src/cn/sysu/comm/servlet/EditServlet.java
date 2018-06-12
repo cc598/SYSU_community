@@ -41,7 +41,7 @@ public class EditServlet extends HttpServlet {
 		 */
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload sfUpload = new ServletFileUpload(factory);
-		sfUpload.setFileSizeMax(1024 * 15);//头像大小最大为15kb
+		sfUpload.setFileSizeMax(1024 * 150);//头像大小最大为15kb
 		try {
 			List<FileItem> fileItems = sfUpload.parseRequest(request);
 			Map<String, String> map = new HashMap<String, String>();
@@ -55,7 +55,6 @@ public class EditServlet extends HttpServlet {
 			
 			FileItem file = fileItems.get(1);
 			// 存放路径为：F:\apache-tomcat-7.0.85-windows-x64\apache-tomcat-7.0.85\webapps\SYSUCommunity\icon_img
-			// 在html中,路径应该为localhost:8080/ c:url 这个路径
 			String savePath = this.getServletContext().getRealPath("/icon_img");
 			
 			//为防止重名,在名字前面加uuid
@@ -81,15 +80,21 @@ public class EditServlet extends HttpServlet {
 				
 				user.setIcon("icon_img/" + filename);
 				userService.edit(user);
-				response.sendRedirect(request.getContextPath() + "/user.jsp");
+//				response.sendRedirect(request.getContextPath() + "/user.jsp");
+				
+				response.getWriter().write("success");
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				//throw new RuntimeException(e);
+				e.printStackTrace();
+				response.getWriter().write("fail");
 			}
 		} catch (FileUploadException e) {
 			if(e instanceof FileUploadBase.FileSizeLimitExceededException){
-				String msg = "您的头像大小超过了15kb";
-				request.setAttribute("msg", msg);
-				request.getRequestDispatcher("/me.jsp").forward(request, response);
+//				String msg = "您的头像大小超过了15kb";
+//				request.setAttribute("msg", msg);
+//				request.getRequestDispatcher("/me.jsp").forward(request, response);
+				
+				response.getWriter().write("fail");
 			}
 		}
 

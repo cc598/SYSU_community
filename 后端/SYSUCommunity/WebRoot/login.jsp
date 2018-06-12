@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  <p>${msg }</p>
     <form action="<c:url value='/LoginServlet'/>" method="post">
     用户名：<input type="text" name="username"/>
     密   码：<input type="text" name="password"/>

@@ -44,4 +44,5 @@ public interface AnswerMapper {
 	 * 加载问题的答案  
 	 */
 	public List<Answer> loadAnswers(int ques_id);
+	public Answer findLastInsert();
 }

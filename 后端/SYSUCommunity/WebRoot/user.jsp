@@ -24,8 +24,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	<a href="<c:url value='/UserServlet?method=myAll'/>">我</a><br>
-    <a href="<c:url value='/profileServlet'/>">编辑资料</a><br>
+  	<a href="<c:url value='/htmls/myall.html'/>">我</a><br>
+    <a href="<c:url value='/htmls/me.html'/>">编辑资料</a><br>
     <a href="<c:url value='/articleJsps/add.jsp'/>">增加文章</a><br>
     <a href="<c:url value='/ArticleServlet?method=findByKey&keyword='/>">查看所有文章</a><br>
     <a href="<c:url value='/CommentServlet?method=findMyComments'/>">我的评论</a><br>

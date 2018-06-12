@@ -12,6 +12,7 @@ import cn.itcast.commons.CommonUtils;
 import cn.itcast.servlet.BaseServlet;
 import cn.sysu.comm.entity.Comment;
 import cn.sysu.comm.service.CommentService;
+import cn.sysu.json.helper.Util;
 
 /**
  * 
@@ -34,7 +35,7 @@ public class CommentServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 上午12:06:45 
 	 */
-	public String add(HttpServletRequest request, HttpServletResponse response)
+	public void add(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		Comment comment = CommonUtils.toBean(request.getParameterMap(), Comment.class);
@@ -45,7 +46,9 @@ public class CommentServlet extends BaseServlet {
 		comment.setReleaseTime(releaseTime);
 		commentService.add(comment);
 		// 重定向到文章页面
-		return "r:/ArticleServlet?method=show&art_id="+comment.getArt_id();
+		String newComment = Util.beanToJson(commentService.findLastInsertComment(), "yyyy-MM-dd HH:mm:ss");
+		response.getWriter().write(newComment);
+		//		return "r:/ArticleServlet?method=show&art_id="+comment.getArt_id();
 	}
 	
 	/**
@@ -55,16 +58,18 @@ public class CommentServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 上午12:32:37 
 	 */
-	public String delete(HttpServletRequest request, HttpServletResponse response)
+	public void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String id = request.getParameter("c_id");
 		int c_id = Integer.parseInt(id);
 		String userid = (String) request.getSession().getAttribute("user_id");
 		if(commentService.delete(c_id, userid)) {
-			return "r:/ArticleServlet?method=show&art_id="  + request.getParameter("art_id");
+//			return "r:/ArticleServlet?method=show&art_id="  + request.getParameter("art_id");
+			response.getWriter().write("success");
 		} else {//删除失败，因为不是当前评论作者
+			response.getWriter().write("fail");
 			request.setAttribute("msg", "你没有权限删除此评论!");
-			return "f:/ArticleServlet?method=show&art_id="  + request.getParameter("art_id");
+			//return "f:/ArticleServlet?method=show&art_id="  + request.getParameter("art_id");
 		}
 		
 		
@@ -75,12 +80,14 @@ public class CommentServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午2:22:11 
 	 */
-	public String findMyComments(HttpServletRequest request, HttpServletResponse response)
+	public void findMyComments(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userid = (String) request.getSession().getAttribute("user_id");
 		List<Comment> comments = commentService.loadMyComments(userid);
 		request.setAttribute("foundList", comments);
-		return "f:/comment_show.jsp";
+		String json = Util.arrayToJson(comments);
+		response.getWriter().write(json);
+		//return "f:/comment_show.jsp";
 	}
 
 	/**
@@ -90,11 +97,13 @@ public class CommentServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午4:40:34 
 	 */
-	public String findCommentsByKey(HttpServletRequest request, HttpServletResponse response)
+	public void findCommentsByKey(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String keyword = request.getParameter("keyword");
 		List<Comment> result = commentService.findCommentsBykey(keyword);
 		request.setAttribute("foundList", result);
-		return "f:/commentJsps/show.jsp";
+		String json = Util.arrayToJson(result);
+		response.getWriter().write(json);
+		//return "f:/commentJsps/show.jsp";
 	}
 }

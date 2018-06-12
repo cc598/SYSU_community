@@ -2,6 +2,7 @@ package cn.sysu.comm.entity;
 
 import java.util.Date;
 
+import cn.sysu.comm.dao.ArticleMapperImpl;
 import cn.sysu.comm.dao.UserMapperImpl;
 
 public class Comment {
@@ -30,6 +31,9 @@ public class Comment {
 	}
 	public String getAuthor(){
 		return new UserMapperImpl().findUserById(authorId).getUsername();
+	}
+	public String getArticle(){
+		return new ArticleMapperImpl().findArticleById(art_id).getTitle();
 	}
 	public Date getReleaseTime() {
 		return releaseTime;

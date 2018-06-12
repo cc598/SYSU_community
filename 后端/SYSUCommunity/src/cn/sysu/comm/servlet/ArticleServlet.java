@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import cn.itcast.commons.CommonUtils;
 import cn.itcast.servlet.BaseServlet;
 import cn.sysu.comm.entity.Article;
 import cn.sysu.comm.service.ArticleService;
 import cn.sysu.comm.service.UserService;
+import cn.sysu.json.helper.Util;
 
 /**
  * 
@@ -46,7 +45,7 @@ public class ArticleServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-8 下午4:48:22 
 	 */
-	public String add(HttpServletRequest request, HttpServletResponse response)
+	public void add(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 获取userid
 		String userid = (String) request.getSession().getAttribute("user_id");
@@ -80,7 +79,7 @@ public class ArticleServlet extends BaseServlet {
 		articleService.add(article);
 		// 重定向到该文章页面
 		request.setAttribute("art_id", String.valueOf(articleService.findLastInsertArticleId()));
-		return show(request, response);
+		 show(request, response);
 		
 	}
 	/**
@@ -91,16 +90,19 @@ public class ArticleServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-8 下午5:12:55 
 	 */
-	public String update(HttpServletRequest request, HttpServletResponse response)
+	public void update(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Article article = CommonUtils.toBean(request.getParameterMap(), Article.class);
 		// 设置上次更新时间
 		Timestamp lastChangeTime = new Timestamp(new java.util.Date().getTime());
 		article.setLastChangeTime(lastChangeTime);
 		articleService.update(article);
-		request.getSession().setAttribute("art", articleService.findArticle(article.getArt_id()));
+		Article updated = articleService.findArticle(article.getArt_id());
+		request.getSession().setAttribute("art", updated);
+		String json = Util.beanToJson(updated,"yyyy-MM-dd HH:mm:ss");
+		response.getWriter().write(json);
 		// 重定向到该文章页面
-		return "r:/articleJsps/article.jsp";
+		//return "r:/articleJsps/article.jsp";
 	}
 	/**
 	 * 
@@ -109,13 +111,22 @@ public class ArticleServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-8 下午5:23:27 
 	 */
-	public String delete(HttpServletRequest request, HttpServletResponse response)
+	public void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String id = request.getParameter("art_id");
 		int art_id = Integer.valueOf(id);
-		articleService.delete(art_id);
-		// 重定向到  [哪个页面？]
-		return "r:/user.jsp";
+		if(articleService.delete(art_id, (String) request.getSession().getAttribute("user_id"))){
+			// 重定向到  [哪个页面？]
+			response.getWriter().write("success");
+		} else{
+			request.setAttribute("msg", "您没有权限删除此文章！");
+			request.setAttribute("art_id", id);
+			// 返回到文章页面
+			response.getWriter().write("fail");
+			show(request, response);
+		}
+
+		
 	}
 	
 	/**
@@ -125,7 +136,7 @@ public class ArticleServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-8 下午5:28:06 
 	 */
-	public String show(HttpServletRequest request, HttpServletResponse response)
+	public void show(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 得到文章的id
 		String id = request.getParameter("art_id");
@@ -142,15 +153,16 @@ public class ArticleServlet extends BaseServlet {
 			/*
 			 * 未完成
 			 */
-//			JSONObject map = JSONObject.fromObject(article);
-//			String json = map.toString();
-			request.setAttribute("art", article);
+			String json = Util.beanToJson(article,"yyyy-MM-dd HH:mm:ss");
+			response.getWriter().write(json);
+			//request.setAttribute("art", article);
 		} else {
 			String msg = "该文章不存在！";
 			request.setAttribute("msg", msg);
-			return "f:/welcome.jsp";
+			response.getWriter().write("fail");
+//			return "f:/welcome.jsp";
 		}
-		return "f:/articleJsps/article.jsp";
+//		return "f:/articleJsps/article.jsp";
 	}
 	
 	/**
@@ -160,14 +172,35 @@ public class ArticleServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-8 下午7:05:13 
 	 */
-	public String findByKey(HttpServletRequest request, HttpServletResponse response)
+	public void findByKey(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String key = request.getParameter("keyword");
 		List<Article> result = articleService.findByKeywords(key);
 		request.setAttribute("foundList", result);
+		String json = Util.arrayToJson(result);
+		response.getWriter().write(json);
 		// 重定向到  [哪个页面？]
-		return "f:/articleJsps/all.jsp";
+		//return "f:/articleJsps/all.jsp";
 	}
 	
+	public void getArticles(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String Ssize = request.getParameter("size");
+		int size = 0;
+		if(Ssize == null) {
+			// 默认值
+			size = 10;
+		} else {
+			size = Integer.valueOf(Ssize);
+		}
+		
+		List<Article> articles = articleService.getArticlesWithPages(size);
+		String json = Util.arrayToJson(articles);
+		response.getWriter().write(json);
+		
+		// 重定向到  [哪个页面？]
+		//return "f:/articleJsps/all.jsp";
+	}
+
 	
 }

@@ -13,6 +13,7 @@ import cn.itcast.servlet.BaseServlet;
 import cn.sysu.comm.entity.Article;
 import cn.sysu.comm.entity.Question;
 import cn.sysu.comm.service.QuestionService;
+import cn.sysu.json.helper.Util;
 
 /**
  * 
@@ -42,7 +43,7 @@ public class QuestionServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午4:48:54 
 	 */
-	public String add(HttpServletRequest request, HttpServletResponse response)
+	public void add(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Question question = CommonUtils.toBean(request.getParameterMap(), Question.class);
 		/*
@@ -53,7 +54,7 @@ public class QuestionServlet extends BaseServlet {
 		question.setReleaseTime(releaseTime);
 		questionService.add(question);
 		request.setAttribute("ques_id", String.valueOf(questionService.findLastInsertQuestionId()));
-		return show(request, response);
+		 show(request, response);
 	}
 
 
@@ -62,9 +63,10 @@ public class QuestionServlet extends BaseServlet {
 	 * @Description: 问题页面
 	 * 传入参数：ques_id
 	 * @author: bee
+	 * @throws IOException 
 	 * @CreateTime: 2018-5-9 下午6:06:55 
 	 */
-	public String show(HttpServletRequest request, HttpServletResponse response) {
+	public void show(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 得到文章的id
 				String id = request.getParameter("ques_id");
 				if(id == null) {
@@ -80,15 +82,15 @@ public class QuestionServlet extends BaseServlet {
 					/*
 					 * 未完成
 					 */
-//					JSONObject map = JSONObject.fromObject(article);
-//					String json = map.toString();
+					String json = Util.beanToJson(question,"yyyy-MM-dd HH:mm:ss");
+					response.getWriter().write(json);
 					request.setAttribute("ques", question);
 				} else {
 					String msg = "该问题不存在！";
 					request.setAttribute("msg", msg);
-					return "f:/welcome.jsp";
+//					return "f:/welcome.jsp";
 				}
-				return "f:/questionJsps/question.jsp";
+//				return "f:/questionJsps/question.jsp";
 	}
 	
 	/**
@@ -98,14 +100,17 @@ public class QuestionServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午6:14:49 
 	 */
-	public String update(HttpServletRequest request, HttpServletResponse response)
+	public void update(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Question question = CommonUtils.toBean(request.getParameterMap(), Question.class);
 		questionService.update(question);
+		Question updated = questionService.findQuestion(question.getQuestion_id());
+		String json = Util.beanToJson(updated,"yyyy-MM-dd HH:mm:ss");
+		response.getWriter().write(json);
 		// 获得该更新后的question对象
-		request.getSession().setAttribute("question", questionService.findQuestion(question.getQuestion_id()));
+		request.getSession().setAttribute("question", updated);
 		// 重定向到该问题页面
-		return "r:/questionJsps/qustion.jsp";
+//		return "r:/questionJsps/qustion.jsp";
 	}
 	/**
 	 * 
@@ -114,13 +119,23 @@ public class QuestionServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午6:20:39 
 	 */
-	public String delete(HttpServletRequest request, HttpServletResponse response)
+	public void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String id = request.getParameter("ques_id");
 		int ques_id = Integer.valueOf(id);
-		questionService.delete(ques_id);
-		// 重定向到  [哪个页面？]
-		return "r:/user.jsp";
+		if(questionService.delete(ques_id, (String) request.getSession().getAttribute("user_id"))) {//删除成功
+			// 重定向到  [哪个页面？]
+		//	return "r:/user.jsp";
+			response.getWriter().write("success");
+		} else {
+			// 重定向到question页面
+			request.setAttribute("msg", "您没有权限删除此问题！");
+			request.setAttribute("ques_id",	id);
+			// show(request, response);
+			response.getWriter().write("fail");
+		}
+		
+		
 	}
 	
 	/**
@@ -130,13 +145,33 @@ public class QuestionServlet extends BaseServlet {
 	 * @author: bee
 	 * @CreateTime: 2018-5-9 下午6:22:21 
 	 */
-	public String findByKey(HttpServletRequest request, HttpServletResponse response)
+	public void findByKey(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String key = request.getParameter("keyword");
 		List<Question> result = questionService.findByKeywords(key);
 		request.setAttribute("foundList", result);
+		String json = Util.arrayToJson(result);
+		response.getWriter().write(json);
 		// 重定向到  [哪个页面？]
-		return "f:/questionJsps/all.jsp";
+//		return "f:/questionJsps/all.jsp";
 	}
 
+	public void getArticles(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String Ssize = request.getParameter("size");
+		int size = 0;
+		if(Ssize == null) {
+			// 默认值
+			size = 10;
+		} else {
+			size = Integer.valueOf(Ssize);
+		}
+		
+		List<Question> questions = questionService.getQuestionsWithPages(size);
+		String json = Util.arrayToJson(questions);
+		response.getWriter().write(json);
+		
+		// 重定向到  [哪个页面？]
+		//return "f:/articleJsps/all.jsp";
+	}
 }

@@ -27,5 +27,8 @@ public interface UserMapper {
 	 * 编辑用户，更改用户信息
 	 */
 	public void editUser(User user);
-	
+	/*
+	 * 增加用户 管理员可用 
+	 */
+	public void addUser(User user);
 }
