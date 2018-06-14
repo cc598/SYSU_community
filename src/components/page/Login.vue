@@ -12,7 +12,7 @@
               type="password"></el-input>
               <el-input class="input" v-model="form.captcha" placeholder="请输入验证码"
               ></el-input>
-          <img id="cap" :src="Captcha" @click="updateCaptcha" alt="验证码加载失败"/>
+          <img id="cap" @click="updateCaptcha" alt="验证码加载失败"/>
           <div class="find-password">忘记密码</div>
           <el-button class="log-btn" type="primary" @click="onSubmit">登陆</el-button>
         </el-form>
@@ -98,6 +98,9 @@ export default {
             }
           }).catch(error=>{
             console.log(error)
+          }).finally(()=>{
+            console.log("login articles")
+            console.log(this.$store.getters.Articles)
           })
 
           axios.get(this.$store.getters.Url+'/QuestionServlet',{
@@ -116,10 +119,10 @@ export default {
           .catch(error=>{
             console.log(error)
           })
-          // .finally(()=>{
-          //   console.log("login questions")
-          //   console.log(this.$store.getters.Questions)
-          // })
+          .finally(()=>{
+            console.log("login questions")
+            console.log(this.$store.getters.Questions)
+          })
 
           axios.get(this.$store.getters.Url+'/UserServlet',{
   			  params:{
@@ -141,22 +144,29 @@ export default {
           })
 
           this.$router.push('/home');
+          this.$message({
+          type: "success",
+          message: "登陆成功"
+        })
         }else if(response.data=='fail'){
           this.$message.error('密码错误');
+          this.updateCaptcha()
         }else {
           this.$message.info('请检查验证码输入正确');
+          this.updateCaptcha()
         }
       })
       .catch(error=>{
         console.log(error)
+
       }).finally(()=>{
-        this.updateCaptcha()
+        
       })
     },
     ...mapActions(['setCurrent'])
   },
-  beforeMount(){
-    this.Captcha = this.GetCaptcha
+  mounted(){
+    this.updateCaptcha()
     
   }
 }

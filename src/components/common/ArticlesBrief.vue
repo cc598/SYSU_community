@@ -2,7 +2,7 @@
   <div>
     <div class="article-description">
       <p class="area-title">专栏</p>
-      <p class="area-description">你可以在这里发表你想说的</p>
+      <p class="area-description">你可以在这里发你想说的</p>
     </div>
     <div class="content-container">
       <div class="article-container">
@@ -12,14 +12,13 @@
           <div :to="{name:'User',params:{name:article.author.name}}">
             <img :src="article.author.headImg_url" class="article-touxiang">
           </div>
-          <div class="article-title" @click="goArticleDetail(article)"
-          :to="{name:'ArticleDetail',params:{id:article.id}}">
+          <div class="article-title" @click="goArticleDetail(article)">
           {{article.title}}</div>
           <div tag="span" class="article-author" 
-          :to="{name:'User',params:{name:article.author.name}}">
-          {{article.author.name}}</div>
-          <span class="article-time">{{article.create_at}}</span>
-          <span class="comment">评论数：{{article.reply_count}}</span>
+          :to="{name:'User',params:{name:article.author}}">
+          {{article.author}}</div>
+          <span class="article-time">{{article.releaseTime}}</span>
+          <span class="comment">评论数：{{article.comments.length}}</span>
         </div>
         <el-pagination class="pegination"
           background
@@ -62,27 +61,29 @@ export default {
 	  },
     handleCurrentChange(val){
       this.currentPage = val;
-      axios.get(this.$store.getters.Url+'/ArticleServlet',{
-        params:{
-          method: 'findByKey',
-          keyword: ''
-        }
-      })
-      .then(response=>{
-        if(response.data){
-          this.data = response.data;
-          // console.log(this.data)
-          this.articleInPage = this.replyItem
-        }else{
-          alert("获取失败")
-        }
-      })
-      .catch(error=>{
-        console.log(error)
-      })
+      this.articleInPage = this.replyItem
+      // axios.get(this.$store.getters.Url+'/ArticleServlet',{
+      //   params:{
+      //     method: 'findByKey',
+      //     keyword: ''
+      //   }
+      // })
+      // .then(response=>{
+      //   if(response.data){
+      //     this.data = response.data;
+      //     // console.log(this.data)
+      //     this.articleInPage = this.replyItem
+      //   }else{
+      //     alert("获取失败")
+      //   }
+      // })
+      // .catch(error=>{
+      //   console.log(error)
+      // })
     }
   },
   mounted(){
+    this.data = this.$store.getters.Articles
     this.handleCurrentChange(1);
   }
 }

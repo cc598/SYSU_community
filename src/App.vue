@@ -6,7 +6,15 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  beforeMount(){
+       var user = localStorage.getItem('user', "")
+       var log = localStorage.getItem('logStatus', "")
+      if (log != "not login" && user != "") {
+        this.$store.commit("updateName", user)
+        this.$store.commit("updateStatus", log)
+      }
+  }
 }
 </script>
 

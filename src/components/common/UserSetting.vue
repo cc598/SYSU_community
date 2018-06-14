@@ -46,7 +46,7 @@ export default {
 			oldpass:"",
 			newpass:"",
 			confirmpass:"",
-			oldInfos: {}
+			oldInfos: {},
 		}
 	},
 	computed: {
@@ -62,12 +62,13 @@ export default {
 	},
 	methods: {
 		updateInfo(state) {
+			
         this.$confirm('即将提交更新, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-						let newInfo = {}
+						var newInfo = {}
 						newInfo.user_id = this.oldInfos.user_id
 						if (state == 1) {
 							newInfo.username = this.username
@@ -78,20 +79,26 @@ export default {
 							newInfo.password = this.newpass
 							this.oldInfos.password = this.newpass
 						}
-						axios.post(this.$store.getters.Url+"EditServlet",newInfo)
+						// console.log(newInfo)
+						
+						axios.post(this.$store.getters.Url+"Edit",newInfo
+						)
 						.then(response=>{
 							console.log(response)
+							if(response.data == 'success') {
+								this.$message({
+								type: 'success',
+								message: '提交成功!'
+								
+							});
+							this.$router.go("/home")
+							}
 						}).catch(error=>{
 							console.log(error)
 						})
-          this.$message({
-            type: 'success',
-            message: '提交成功!'
-            
-					});
-					this.$router.go(-1)
-        }).catch(() => {
           
+        }).catch((err) => {
+          console.log(err)
           this.$message({
             type: 'info',
             message: '已取消提交'

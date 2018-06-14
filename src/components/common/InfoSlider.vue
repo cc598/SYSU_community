@@ -19,7 +19,7 @@
         <i class="el-icon-setting"></i>
         <span slot="title">基本设置</span>
       </el-menu-item>
-      <el-menu-item index="/" @click="logout">
+      <el-menu-item @click="logout">
         <i class="el-icon-setting"></i>
         <span slot="title">退出登录</span>
       </el-menu-item>
@@ -39,8 +39,24 @@ export default {
   },
   methods: {
     logout() {
-      axios.get(this.url)
-      this.$store.commit("clearAll")
+      this.$confirm("确认退出？","提示",{
+        confirmButtonText: "确定",
+        cancelButtonText: "返回",
+        type: "warning"
+        
+      }).then(()=>{
+            axios.get(this.url).then(response=>{
+              this.$store.commit("clearAll")
+              this.$message({
+              type: "success",
+              message: "已退出登陆"})
+              this.$router.replace("/")
+            
+        })
+      }).catch((err)=>{
+        console.log(err)
+      })
+      
     }
   }
 }

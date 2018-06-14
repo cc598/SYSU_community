@@ -9,13 +9,13 @@
 	  		<div class="question-list">
 
 	  			<div class="question-item" v-for="question in itemInPage">
-	  				<div :to="{name:'User',params:{name:question.author.name}}">
+	  				<div :to="{name:'User',params:{name:question.author}}">
 	  					<img :src="question.author.headImg_Url" class="question-touxiang">
 	  				</div>
 	  				<div class="question-title" @click="goQuestionDetail(question)"
             :to="{name:'QuestionDetail',params:{id:question.id}}" tag="h4"
 	  				>{{question.title}}</div>
-	  				<span class="reply">回答数：{{question.num_of_reply}}</span>
+	  				<span class="reply">回答数：{{question.answers.length}}</span>
 	  			</div>
 	  			
 	  			 <el-pagination class="pegination"

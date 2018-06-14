@@ -59,8 +59,8 @@ export default {
 		// console.log("article\n")
 		// console.log(article)
 		this.$store.commit("updateSA", article)
-		console.log("selected article\n")
-		console.log(this.$store.getters.selectedArticle)
+		// console.log("selected article\n")
+		// console.log(this.$store.getters.selectedArticle)
 		this.$router.push({ name: 'ArticleDetail', params: {id:article.art_id}})
 	},
 	goQuestionDetail(question){
@@ -89,7 +89,7 @@ export default {
 			// console.log(response)
   			if(response.data){
 			 	 let data = response.data;
-				  console.log(this.data)
+				//   console.log(this.data)
 				 this.articleInHome.push(data)
   			}
   		})
@@ -99,10 +99,10 @@ export default {
 		  
 		 axios.get(this.$store.getters.Url+"/QuestionServlet?method=show&ques_id="+i)
   		.then(response=>{
-			console.log(response)
+			// console.log(response)
   			if(response.data){
 			 	 let data = response.data;
-				   console.log(data)
+				//    console.log(data)
 				 this.questionInHome.push(data)
   			}
   		})

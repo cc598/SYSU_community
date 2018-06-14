@@ -19,15 +19,14 @@ export default new Vuex.Store({
 	mutations: {
 		updateUser(state, _user){
 			state.user=_user;
+			localStorage.setItem('user', _user)
 		},
 		updateStatus(state, _to='login'){
 			state.logStatus = _to;
+			localStorage.setItem('logStatus', _to)
 		},
 		updateName(state, _to){
 			state.username = _to;
-		},
-		updateName(state, _to){
-			state.password = _to;
 		},
 		updateSA(state,_to){
 			state.selectedArticle = _to
@@ -50,6 +49,8 @@ export default new Vuex.Store({
 			state.selectedQuestion = {}
 			state.Questions = []
 			state.Articles = []
+			localStorage.setItem('user', "")
+			localStorage.setItem('logStatus', 'not login')
 		}
 	},
 	actions: {
