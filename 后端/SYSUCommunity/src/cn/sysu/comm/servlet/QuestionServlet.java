@@ -156,7 +156,7 @@ public class QuestionServlet extends BaseServlet {
 //		return "f:/questionJsps/all.jsp";
 	}
 
-	public void getArticles(HttpServletRequest request, HttpServletResponse response)
+	public void getQuestions(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String Ssize = request.getParameter("size");
 		int size = 0;

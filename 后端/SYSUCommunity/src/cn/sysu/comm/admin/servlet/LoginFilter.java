@@ -26,7 +26,7 @@ public class LoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String userid = (String) req.getSession().getAttribute("user_id");
 		String url = req.getRequestURI();
-		if(userid != null || url.contains("ogin")) {
+		if(userid != null || url.contains("ogin") || url.contains("GetCaptcha")) {
 			chain.doFilter(request, response);
 		} else {
 			req.setAttribute("msg", "请先登录！");

@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <form action="<c:url value='/LoginServlet'/>" method="post">
     用户名：<input type="text" name="username"/>
     密   码：<input type="text" name="password"/>
+    验证码：<input type="text" name="captcha" /><img src="<c:url value='/GetCaptcha' />"/>
     <input type="submit" value="提交"/> 
     </form>
   </body>

@@ -51,7 +51,9 @@ public class UserService {
 	public void edit(User user) {
 		try {
 			JdbcUtils.beginTransaction();
-			userDao.editUser(user);
+			User originalUser = userDao.findUserById(user.getUser_id());
+			User newUser = implementUser(user, originalUser);
+			userDao.editUser(newUser);
 			JdbcUtils.commitTransaction();
 		} catch (SQLException e) {
 			try {
@@ -76,6 +78,17 @@ public class UserService {
 		user.setAnswers(answerDao.findAnswersByAuthorId(userid));
 		user.setQuestions(questionDao.findQuestionsByAuthorId(userid));
 		return user;
+	}
+	
+	private User implementUser(User newUser, User originalUser) {
+		newUser.setUsername(newUser.getUsername() == null ? originalUser.getUsername():newUser.getUsername());
+		newUser.setSex(newUser.getSex() == null ? originalUser.getSex():newUser.getSex());
+		newUser.setPassword(newUser.getPassword() == null? originalUser.getPassword():newUser.getPassword());
+		newUser.setIcon(newUser.getIcon() == null ? originalUser.getIcon():newUser.getIcon());
+		newUser.setGrade(newUser.getGrade() == null ? originalUser.getGrade():newUser.getGrade());
+		newUser.setEmail(newUser.getEmail() == null ? originalUser.getEmail():newUser.getEmail());
+		newUser.setCollege(newUser.getCollege() == null ? originalUser.getCollege():newUser.getCollege());
+		return newUser;
 	}
 	
 }

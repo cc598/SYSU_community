@@ -13,7 +13,7 @@ import cn.sysu.comm.entity.User;
 public class UserMapperImpl implements UserMapper {
 
 	private QueryRunner qRunner = new TxQueryRunner();
-	
+
 	@Override
 	public User findUserById(String id) {
 		String sql = "select * from t_user where user_id = ?";
@@ -28,7 +28,8 @@ public class UserMapperImpl implements UserMapper {
 	public List<User> findUserByName(String username) {
 		String sql = "select * from t_user where username like ?";
 		try {
-			return qRunner.query(sql, new BeanListHandler<User>(User.class), "%"+username+"%");
+			return qRunner.query(sql, new BeanListHandler<User>(User.class),
+					"%" + username + "%");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -36,10 +37,11 @@ public class UserMapperImpl implements UserMapper {
 
 	@Override
 	public void editUser(User user) {
-		String sql = "update t_user set username=?, icon=?, sex=?," +
-					" email=? where user_id=?";
-		Object[] params = {user.getUsername(), user.getIcon(),
-							user.getSex(), user.getEmail(),user.getUser_id()};
+		String sql = "update t_user set username=?, icon=?, sex=?, password=?, college=?, grade=?,"
+				+ " email=? where user_id=?";
+		Object[] params = { user.getUsername(), user.getIcon(), user.getSex(),
+				user.getPassword(), user.getCollege(), user.getGrade(),
+				user.getEmail(), user.getUser_id() };
 		try {
 			qRunner.update(sql, params);
 		} catch (SQLException e) {
@@ -51,9 +53,9 @@ public class UserMapperImpl implements UserMapper {
 	@Override
 	public void addUser(User user) {
 		String sql = "insert into t_user values(?, ?, ?, ?, ?, ?, ?, ?)";
-		Object[] params = {user.getUser_id(), user.getUsername(), user.getPassword(),
-				user.getIcon(),	user.getSex(), user.getCollege(), user.getGrade(),
-				user.getEmail()};
+		Object[] params = { user.getUser_id(), user.getUsername(),
+				user.getPassword(), user.getIcon(), user.getSex(),
+				user.getCollege(), user.getGrade(), user.getEmail() };
 		try {
 			qRunner.update(sql, params);
 		} catch (SQLException e) {
