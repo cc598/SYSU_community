@@ -6,6 +6,11 @@ import java.util.Date;
 
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
+
+/*
+author: kingchiu
+ */
+
 /**
  * 将Bean中的Timestamp、Date转换为json中的日期字符串
  * @author hzf

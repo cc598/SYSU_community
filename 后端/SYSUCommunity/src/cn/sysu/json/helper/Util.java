@@ -7,6 +7,10 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.JSONUtils;
 
+/*
+author: kingchiu
+ */
+
 public class Util {
 
     public static Object jsonToBean(String json,Class cls) {

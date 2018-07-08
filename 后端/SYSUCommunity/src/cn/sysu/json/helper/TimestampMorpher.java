@@ -6,6 +6,10 @@ import java.text.SimpleDateFormat;
 import net.sf.ezmorph.MorphException;
 import net.sf.ezmorph.object.AbstractObjectMorpher;
 
+/*
+author: kingchiu
+ */
+
 /**
  * 将json串中的日期字符串转换为bean中的Timestamp、Date
  * 
