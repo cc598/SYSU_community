@@ -10,6 +10,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/*
+author: kingchiu
+ */
 /**
  * Servlet Filter implementation class LoginFilter
  */

@@ -7,11 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.itcast.servlet.BaseServlet;
-/**
- * 
- * @Description: 后台管理员的servlet
- * @CreateTime: 2018-5-10 下午10:32:38 
- * @author: bee
+/*
+author: kingchiu
  */
 public class Admin extends BaseServlet {
 
