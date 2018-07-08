@@ -10,6 +10,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import cn.itcast.jdbc.TxQueryRunner;
 import cn.sysu.comm.entity.User;
 
+/*
+author: kingchiu
+ */
+
 public class UserMapperImpl implements UserMapper {
 
 	private QueryRunner qRunner = new TxQueryRunner();

@@ -8,6 +8,11 @@ import org.junit.Test;
 
 import cn.sysu.comm.entity.Comment;
 
+
+/*
+author: kingchiu
+ */
+
 public class CommentMapperImplTest {
 
 	@Test

@@ -12,6 +12,10 @@ import cn.sysu.comm.entity.Answer;
 import cn.sysu.comm.entity.Comment;
 import cn.sysu.comm.entity.Question;
 
+/*
+author: kingchiu
+ */
+
 public class AnswerMapperImpl implements AnswerMapper {
 
 	QueryRunner qRunner = new TxQueryRunner();

@@ -8,6 +8,10 @@ import org.junit.Test;
 
 import cn.sysu.comm.entity.Answer;
 
+/*
+author: kingchiu
+ */
+
 public class AnswerMapperImplTest {
 
 	@Test

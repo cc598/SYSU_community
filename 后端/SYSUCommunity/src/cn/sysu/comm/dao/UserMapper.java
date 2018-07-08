@@ -4,14 +4,10 @@ import java.util.List;
 
 import cn.sysu.comm.entity.User;
 
-/**
- * 
- * @Description:
- *  User类数据层接口
- * @CreateTime: 2018-4-24 下午8:07:51 
- * @author: bee
- * @version V1.0
+/*
+author: kingchiu
  */
+
 
 public interface UserMapper {
 	/*

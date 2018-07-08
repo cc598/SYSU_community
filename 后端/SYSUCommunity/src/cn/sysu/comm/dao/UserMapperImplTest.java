@@ -6,6 +6,10 @@ import org.junit.Test;
 
 import cn.sysu.comm.entity.User;
 
+/*
+author: kingchiu
+ */
+
 public class UserMapperImplTest {
 
 	@Test

@@ -11,6 +11,10 @@ import org.junit.Test;
 
 import cn.sysu.comm.entity.Article;
 
+/*
+author: kingchiu
+ */
+
 public class ArticleMapperImplTest {
 
 	@Test

@@ -12,6 +12,10 @@ import cn.itcast.jdbc.TxQueryRunner;
 import cn.sysu.comm.entity.Article;
 import cn.sysu.comm.entity.Question;
 
+/*
+author: kingchiu
+ */
+
 public class QuestionMapperImpl implements QuestionMapper {
 	
 	QueryRunner qRunner = new TxQueryRunner();

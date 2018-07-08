@@ -12,6 +12,10 @@ import cn.sysu.comm.entity.Article;
 import cn.sysu.comm.entity.Comment;
 import cn.sysu.comm.entity.User;
 
+/*
+author: kingchiu
+ */
+
 public class ArticleMapperImpl implements ArticleMapper {
 
 	QueryRunner qRunner = new TxQueryRunner();	
